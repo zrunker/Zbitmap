@@ -25,29 +25,46 @@ public class BitmapCache {
         };
     }
 
-    // 添加缓存
+    /**
+     * 添加缓存
+     *
+     * @param key 键
+     * @param value 值
+     */
     public void addBitmapToCache(String key, Bitmap value) {
         if (value != null && getBitmapFromCache(key) == null)
             mLruCache.put(key, value);
     }
 
-    // 更新缓存
+    /**
+     * 更新缓存
+     * @param key 键
+     * @param value 值
+     */
     public void updateBitmapToCache(String key, Bitmap value) {
         if (value != null)
             mLruCache.put(key, value);
     }
 
-    // 取出Bitmap
+    /**
+     * 取出Bitmap
+     * @param key 键
+     */
     public Bitmap getBitmapFromCache(String key) {
         return mLruCache.get(key);
     }
 
-    // 移除Bitmap
+    /**
+     * 移除Bitmap
+     * @param key 键
+     */
     public void removeBitmapFromCache(String key) {
         mLruCache.remove(key);
     }
 
-    // 清空缓存
+    /**
+     * 清空缓存
+     */
     public void clearCache() {
         mLruCache.evictAll();
         System.gc();
