@@ -567,25 +567,28 @@ public class BitmapUtil {
      *
      * @param path 视频地址
      */
-    public static Bitmap getVideoThumb1(@NonNull String path) {
-        return getVideoThumb(path, -1);
+    public static Bitmap getVideoThumb(@NonNull String path) {
+        return getVideoThumb(path, 0);
     }
 
     /**
      * 获取视频帧 - 子线程
      *
      * @param path 视频地址
+     * @param time 时间
      */
-    public static Bitmap getVideoThumb(@NonNull String path) {
-        return getVideoThumb(path, 0);
+    public static Bitmap getVideoThumb(@NonNull String path, long time) {
+        return getVideoThumb(path, time, MediaMetadataRetriever.OPTION_CLOSEST_SYNC);
     }
 
     /**
-     * 获取视频第一帧 - 子线程
+     * 获取视频帧 - 子线程
      *
-     * @param path 视频地址
+     * @param path   视频地址
+     * @param time   时间
+     * @param option 获取帧类型
      */
-    public static Bitmap getVideoThumb(@NonNull String path, long time) {
+    public static Bitmap getVideoThumb(@NonNull String path, long time, int option) {
         Bitmap bitmap = null;
         MediaMetadataRetriever retriever = new MediaMetadataRetriever();
         try {
@@ -599,18 +602,23 @@ public class BitmapUtil {
                 // 本地
                 retriever.setDataSource(path);
             }
-//            bitmap = retriever.getFrameAtTime(0, MediaMetadataRetriever.OPTION_CLOSEST_SYNC);
+            // OPTION_CLOSEST 精确
+//            bitmap = retriever.getFrameAtTime(0, MediaMetadataRetriever.OPTION_CLOSEST);
             if (time < 0) {
                 // 获取时长，单位：毫秒
                 String duration = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
                 // 取视频时长中点的最近一个关键帧
                 long frameTime = Long.parseLong(duration) * 1000 / 2;
                 // 参数单位为微秒，1毫秒 = 1000微秒
-                bitmap = retriever.getFrameAtTime(frameTime, MediaMetadataRetriever.OPTION_CLOSEST_SYNC);
-            } else if (time == 0)
-                bitmap = retriever.getFrameAtTime();
-            else
-                bitmap = retriever.getFrameAtTime(time);
+                bitmap = retriever.getFrameAtTime(frameTime, option);
+            } else if (time == 0) {
+                if (option == MediaMetadataRetriever.OPTION_CLOSEST_SYNC)
+                    bitmap = retriever.getFrameAtTime();
+                else
+                    bitmap = retriever.getFrameAtTime(0, option);
+            } else {
+                bitmap = retriever.getFrameAtTime(time, option);
+            }
         } catch (Exception ex) {
             ex.printStackTrace();
         } finally {
