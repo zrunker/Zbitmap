@@ -27,7 +27,7 @@ allprojects {
 }
 
 dependencies {
-   compile 'com.github.zrunker:Zbitmap:v1.0.0'
+   compile 'com.github.zrunker:ZBitmap:v1.0.0'
 }
 ```
 2、通过Maven引入，在pom.xml文件中添加如下代码：
