@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 import cc.ibooker.zbitmaplib.BitmapCache;
-import cc.ibooker.zbitmaplib.BitmapFun;
 
 public class MainActivity extends AppCompatActivity {
 
