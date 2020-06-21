@@ -563,7 +563,16 @@ public class BitmapUtil {
     }
 
     /**
-     * 获取视频第一帧 - 子线程
+     * 获取视频帧 - 子线程
+     *
+     * @param path 视频地址
+     */
+    public static Bitmap getVideoThumb1(@NonNull String path) {
+        return getVideoThumb(path, -1);
+    }
+
+    /**
+     * 获取视频帧 - 子线程
      *
      * @param path 视频地址
      */
@@ -591,7 +600,17 @@ public class BitmapUtil {
                 retriever.setDataSource(path);
             }
 //            bitmap = retriever.getFrameAtTime(0, MediaMetadataRetriever.OPTION_CLOSEST_SYNC);
-            bitmap = retriever.getFrameAtTime(time < 0 ? 0 : time);
+            if (time < 0) {
+                // 获取时长，单位：毫秒
+                String duration = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
+                // 取视频时长中点的最近一个关键帧
+                long frameTime = Long.parseLong(duration) * 1000 / 2;
+                // 参数单位为微秒，1毫秒 = 1000微秒
+                bitmap = retriever.getFrameAtTime(frameTime, MediaMetadataRetriever.OPTION_CLOSEST_SYNC);
+            } else if (time == 0)
+                bitmap = retriever.getFrameAtTime();
+            else
+                bitmap = retriever.getFrameAtTime(time);
         } catch (Exception ex) {
             ex.printStackTrace();
         } finally {
