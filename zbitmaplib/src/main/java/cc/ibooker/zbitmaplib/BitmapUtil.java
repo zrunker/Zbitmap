@@ -568,6 +568,15 @@ public class BitmapUtil {
      * @param path 视频地址
      */
     public static Bitmap getVideoThumb(@NonNull String path) {
+        return getVideoThumb(path, 0);
+    }
+
+    /**
+     * 获取视频第一帧 - 子线程
+     *
+     * @param path 视频地址
+     */
+    public static Bitmap getVideoThumb(@NonNull String path, long time) {
         Bitmap bitmap = null;
         MediaMetadataRetriever retriever = new MediaMetadataRetriever();
         try {
@@ -581,7 +590,8 @@ public class BitmapUtil {
                 // 本地
                 retriever.setDataSource(path);
             }
-            bitmap = retriever.getFrameAtTime(0, MediaMetadataRetriever.OPTION_CLOSEST_SYNC);
+//            bitmap = retriever.getFrameAtTime(0, MediaMetadataRetriever.OPTION_CLOSEST_SYNC);
+            bitmap = retriever.getFrameAtTime(time < 0 ? 0 : time);
         } catch (Exception ex) {
             ex.printStackTrace();
         } finally {
@@ -592,6 +602,32 @@ public class BitmapUtil {
             }
         }
         return bitmap;
+    }
+
+    /**
+     * 获取音频封面
+     *
+     * @param path MP3文件路径
+     */
+    public static byte[] getAudioThumb(String path) {
+        byte[] picture = null;
+        try {
+            MediaMetadataRetriever retriever = new MediaMetadataRetriever();
+            String formatPath = path.toLowerCase();
+            if (formatPath.startsWith("http://")
+                    || formatPath.startsWith("https://")
+                    || formatPath.startsWith("widevine://")) {
+                // 网络
+                retriever.setDataSource(path, new Hashtable<String, String>());
+            } else {
+                // 本地
+                retriever.setDataSource(path);
+            }
+            picture = retriever.getEmbeddedPicture();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return picture;
     }
 
     /**
