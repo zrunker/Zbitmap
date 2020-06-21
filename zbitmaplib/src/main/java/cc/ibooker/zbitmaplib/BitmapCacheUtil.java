@@ -22,6 +22,11 @@ public class BitmapCacheUtil {
     }
 
     public BitmapCacheUtil() {
+        init();
+    }
+
+    // 初始化
+    public void init() {
         // 使用Runtime类获取最大可用内存缓存（计量单位为Byte）
         int maxMemory = (int) Runtime.getRuntime().maxMemory();
         // 设置为可用内存的1/4（按Byte计算）
