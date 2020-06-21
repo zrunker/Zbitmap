@@ -3,7 +3,8 @@ package cc.ibooker.zbitmap;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
-import cc.ibooker.zbitmaplib.BitmapCache;
+import cc.ibooker.zbitmaplib.BitmapCacheUtil;
+import cc.ibooker.zbitmaplib.BitmapUtil;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -13,9 +14,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         // bitmap方法类BtimapFun
-        BitmapFun.imgPathToBitmap2("imagePath");
+        BitmapUtil.imgPathToBitmap("imagePath");
         // bitmap缓存类BitmapCache
-        BitmapCache bitmapCache = new BitmapCache();
-        bitmapCache.removeBitmapFromCache("imagePath");
+        BitmapCacheUtil bitmapCacheUtil = new BitmapCacheUtil();
+        bitmapCacheUtil.removeBitmapFromCache("imagePath");
     }
 }

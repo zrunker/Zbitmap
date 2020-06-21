@@ -7,11 +7,21 @@ import android.util.LruCache;
  * Bitmap缓存类-这里采用内存缓存
  * Created by 邹峰立 on 2017/7/6.
  */
-public class BitmapCache {
+public class BitmapCacheUtil {
     // 内存缓存，key可以是网络路径，可以是本地路径
     private LruCache<String, Bitmap> mLruCache;
+    private static BitmapCacheUtil imageCacheUtil;
 
-    public BitmapCache() {
+    public static BitmapCacheUtil getInstanse() {
+        if (imageCacheUtil == null) {
+            synchronized (BitmapCacheUtil.class) {
+                imageCacheUtil = new BitmapCacheUtil();
+            }
+        }
+        return imageCacheUtil;
+    }
+
+    public BitmapCacheUtil() {
         // 使用Runtime类获取最大可用内存缓存（计量单位为Byte）
         int maxMemory = (int) Runtime.getRuntime().maxMemory();
         // 设置为可用内存的1/4（按Byte计算）
@@ -28,7 +38,7 @@ public class BitmapCache {
     /**
      * 添加缓存
      *
-     * @param key 键
+     * @param key   键
      * @param value 值
      */
     public void addBitmapToCache(String key, Bitmap value) {
@@ -38,7 +48,8 @@ public class BitmapCache {
 
     /**
      * 更新缓存
-     * @param key 键
+     *
+     * @param key   键
      * @param value 值
      */
     public void updateBitmapToCache(String key, Bitmap value) {
@@ -48,6 +59,7 @@ public class BitmapCache {
 
     /**
      * 取出Bitmap
+     *
      * @param key 键
      */
     public Bitmap getBitmapFromCache(String key) {
@@ -56,6 +68,7 @@ public class BitmapCache {
 
     /**
      * 移除Bitmap
+     *
      * @param key 键
      */
     public void removeBitmapFromCache(String key) {

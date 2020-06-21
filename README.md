@@ -118,38 +118,38 @@ Bitmap bitmap = BitmapFun.compressBitmapByRatio(Bitmap bitmap, floatpixelW, floa
 ```
 **2、BitmapCache类-用于缓存Bitmap**
 
-BitmapCache bitmapCache =new BitmapCache();// 初始化缓存类
+BitmapCache bitmapCacheUtil =new BitmapCache();// 初始化缓存类
 ```
 /**
  *添加缓存
  *@param key键
  *@param value值
  */
-bitmapCache.addBitmapToCache(String key,Bitmap value);
+bitmapCacheUtil.addBitmapToCache(String key,Bitmap value);
 
 /**
  *更新缓存
  *@param key键
  *@param value值
  */
-bitmapCache.updateBitmapToCache(String key,Bitmap value);
+bitmapCacheUtil.updateBitmapToCache(String key,Bitmap value);
 
 /**
  *取出Bitmap
  *@param key键
  */
-Bitmap bitmap = bitmapCache.getBitmapFromCache(String key);
+Bitmap bitmap = bitmapCacheUtil.getBitmapFromCache(String key);
 
 /**
  *移除Bitmap
  *@param key键
  */
-bitmapCache.removeBitmapFromCache(String key);
+bitmapCacheUtil.removeBitmapFromCache(String key);
 
 /**
  *清空缓存
  */
-bitmapCache.clearCache();
+bitmapCacheUtil.clearCache();
 ```
 最后只需要在相应界面调用这些方法即可，如：
 ```
@@ -157,8 +157,8 @@ bitmapCache.clearCache();
 BitmapFun.imgPathToBitmap2("imagePath");
         
 // bitmap缓存类BitmapCache
-BitmapCache bitmapCache = new BitmapCache();
-bitmapCache.removeBitmapFromCache("imagePath");
+BitmapCache bitmapCacheUtil = new BitmapCache();
+bitmapCacheUtil.removeBitmapFromCache("imagePath");
 ```
 [Github地址](https://github.com/zrunker/ZBitmap)
 [阅读原文](http://www.ibooker.cc/article/21/detail)
